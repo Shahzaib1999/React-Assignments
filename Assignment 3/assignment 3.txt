@@ -1,0 +1,303 @@
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import './css/bootstrap.min.css';
+import swal from 'sweetalert';
+
+class App extends Component {
+    constructor() {
+    super();
+
+    this.state = {
+      state: false,
+      addForm : false,
+      text: 'Admin LogIn',
+      userName: 'admin@gmail.com',
+      password: 'admin',
+      username: false,
+      pass: false,
+      todos: [],
+      text: {},
+      text1: '',
+      currentIndex: null
+    }
+
+    this.add = this.add.bind(this);
+    this.updateText = this.updateText.bind(this);
+    this.cancel = this.cancel.bind(this);
+    this.upd = this.upd.bind(this);
+  }
+
+renderHeader(){
+  const {text} = this.state;
+
+  return (
+    <header className="App-header">
+      <img src={logo} className="App-logo" alt="logo" />
+     
+    </header> 
+  );
+}
+
+  logIn(e){
+    const {pass,username} = this.state;
+    debugger
+    if(pass == true && username == true){
+      swal("LogIn successful!", "","success");
+      this.setState({state:true,addForm:false})
+    }
+    else{
+      swal("LogIn unsuccessful", "", "warning")
+    }
+  }
+
+  user_Name(e){
+    const {userName,username} = this.state; 
+    
+    const value = e.target.value;
+    if(value == userName){
+      this.setState({ 
+        username:true    
+        })
+    }
+    else if(value == ""){
+      this.setState({ 
+        username: ""    
+        })
+    }
+    else{
+      this.setState({ 
+        username: "Incomplete or invalid username"    
+        })
+    }
+
+  }
+
+  passa(e){
+    const {password,pass} = this.state; 
+    
+    const value = e.target.value;
+
+    if(value == password){
+      this.setState({ 
+        pass:true    
+        })
+    }
+    else if(value == ""){
+      this.setState({ 
+        pass: ""    
+        })    
+    }
+    else{
+      this.setState({ 
+        pass: "Incomplete or invalid password"
+      })
+    }
+
+  }
+
+
+
+
+
+
+  updateText(e) {
+    this.setState({text: {firstName: this.firstName.value, lastName: this.lastName.value, email: this.email.value, number: this.number.value, date: this.date.value}})
+  }
+
+  add() {
+    const {text, todos} = this.state;
+
+    if(!this.firstName.value || !this.lastName.value || !this.email.value || !this.number.value || !this.date.value){
+      swal("Fill all the fields","","warning");
+    }
+    else{
+      todos.push(text);
+      this.setState({todos, text: {name:''},addForm:false});
+      this.firstName.value = "";
+      this.lastName.value = "";
+      this.email.value = "";
+      this.number.value = "";
+      this.date.value = "";
+    }
+  }
+
+  edit(index) {
+    const {todos} = this.state;
+    debugger
+    this.setState({text: todos[index], currentIndex: index, addForm:true})
+    this.fill();
+  }
+
+  fill(){
+    const {text} = this.state;    
+
+    this.firstName.value = text.firstName;
+    this.lastName.value = text.lastName;
+    this.email.value = text.email;
+    this.number.value = text.number;
+    this.date.value = text.date;
+  }
+
+  delete(index) {
+    const {todos} = this.state;
+    todos.splice(index, 1);
+
+    this.setState({todos, currentIndex: null});
+  }
+
+  cancel() {
+    this.setState({text: '', currentIndex: null})
+  }
+
+
+
+  renderTable() {
+    const {todos} = this.state;
+
+    var style1 = {
+      width:'60px',
+      height: '35px',
+      fontSize: '18px',
+    };
+
+    var style2 = {
+      width:'80px',
+      height: '35px',
+      fontSize: '18px',
+    };
+    
+
+    return <table className='table table-bordered container'> 
+    
+    {todos.map((item, index) => {
+      return (
+        <tbody>  
+          <tr key={index}>
+            <td>{item.firstName}</td>
+            <td>{item.lastName}</td>
+            <td>{item.email}</td>
+            <td>{item.number}</td>
+            <td>{item.date}</td>
+            <td><button className="btn btn-info" style={style1} onClick={this.edit.bind(this, index)}>Edit</button></td> 
+            <td><button className="btn btn-danger" style={style2} onClick={this.delete.bind(this, index)}>Delete</button></td> 
+          </tr>
+        </tbody>
+    )})
+    
+  }
+  </table>
+  }  
+
+  change(){
+    this.setState({addForm:true,state: true})
+  }
+
+  upd(index){
+    const {todos,text} = this.state;
+    debugger;
+    
+    this.setState({text:todos.splice(index, 5, text),text: text,addForm: false});
+  }
+
+
+renderLogIn(){
+const {username,pass} = this.state;
+var style = {
+  color: 'red'
+};
+
+  return (
+    <div className="App">
+      <p className="App-intro container">
+      <br />
+      <div className="panel panel-primary">
+        
+        <div className="panel-heading">
+          <h1>LogIn</h1>
+        </div>
+        <div className="panel-body">
+          <h3>
+            <input type="email" className="form-control" placeholder="Enter email" onChange={this.user_Name.bind(this)} /><br />
+            {username && <h3 style={style}> {username}</h3>}
+          </h3>
+          <h3>
+            <input type="password" className="form-control" placeholder="Enter password" onChange={this.passa.bind(this)} />
+            {pass && <h3 style={style}> {pass}</h3>}
+          </h3>
+          <h2>
+            <input type="button" value="LogIn" onClick={() => this.logIn()} className="btn btn-primary" />
+          </h2>
+
+        </div>
+
+      </div>
+
+      </p>
+      
+    </div>
+  );
+}
+
+renderAdd() {
+  
+  const {currentIndex} = this.state;
+
+  return (
+
+
+  <div className="container">
+      <br />
+      <div className="panel panel-primary">
+        
+        <div className="panel-heading">
+          <h1>Adding Employee</h1>
+        </div>
+        
+        <div className="panel-body">
+          <input class="form-control" ref={input => this.firstName = input} placeholder="Enter first name" onChange={this.updateText}/><br />
+          <input class="form-control" ref={input => this.lastName = input} placeholder="Enter last name" onChange={this.updateText}/><br />
+          <input class="form-control" type="email" ref={input => this.email = input} placeholder="Enter email" onChange={this.updateText}/><br />
+          <input class="form-control" type="number" ref={input => this.number = input} placeholder="Enter number" onChange={this.updateText}/><br />
+          <input class="form-control" type="date" ref={input => this.date = input} placeholder="Enter date" onChange={this.updateText}/><br />
+
+          {currentIndex == null ? 
+            <button className="btn btn-primary" onClick={this.add}>Add</button>
+            : 
+            <div>
+              <button className="btn btn-success" onClick={() => this.upd(currentIndex)}>Update</button>
+              <button className="btn btn-warning" onClick={this.cancel}>Cancel</button>
+            </div>
+          }
+          <br/>
+          {currentIndex != null && <p>You editing column #{currentIndex + 1}</p>}
+          
+
+        </div>
+
+      </div>
+        
+    </div>
+
+
+
+);
+}
+
+
+
+  render() {
+    const {list,result, value, state, addForm} = this.state;
+
+    return (
+      <div className="App">
+        {this.renderHeader()}
+        {!state && this.renderLogIn()}
+        {state && this.renderAdd()}
+        {state && this.renderTable()}
+      </div>
+    );
+  }
+}
+
+export default App;

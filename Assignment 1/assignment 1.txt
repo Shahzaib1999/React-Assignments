@@ -1,0 +1,70 @@
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+class App extends Component {
+  render() {
+  	var arr = [
+	  [	
+	  	{
+	  		name:'abc',
+	  		age:20
+	  	},
+	  	{
+	  		name:'def',
+	  		age:50
+	  	},
+	  	{
+	  		name:'ghi',
+	  		age:50
+	  	}
+	  ],
+	  [	
+	  	{
+	  		name:'abc',
+	  		age:20
+	  	},
+	  	{
+	  		name:'def',
+	  		age:50
+	  	},
+	  	{
+	  		name:'ghi',
+	  		age:50
+	  	}
+	  ]			
+  	]	
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
+        <p className="App-intro">
+          To get started, edit <code>src/App.js</code> and save to reload.
+          <ol>
+          {
+          	arr.map((key) => {
+          	
+          		console.log(key);
+          		return key.map((keys) =>{
+          			console.log(keys.name);
+          			return <li>{keys.name}</li>
+          		})
+      			// return arr.map(function(key, index){
+      			// 	console.log('2 ',key[index].name)
+      			// 	return <li>{key[index].name}</li>
+     				// })
+     		})
+
+  			}
+  			</ol>
+        </p>
+      </div>
+
+
+    );
+  }
+}
+
+export default App;

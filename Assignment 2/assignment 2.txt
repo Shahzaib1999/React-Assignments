@@ -1,0 +1,82 @@
+import React, { Component } from 'react';
+
+import logo from './logo.svg';
+
+import './App.css';
+
+
+
+class App extends Component {
+    
+	constructor() {
+    
+	super();
+
+    
+	
+	this.state = {
+      
+	text: "Hello World",
+      
+	condition: true
+    }
+
+  	
+}
+
+    
+
+update(){
+      
+	this.setState({
+        
+	text: this.state.condition ? "Hello Pakistan" : "Hello World",
+        condition: !this.state.condition
+      
+	})
+    
+}
+
+  
+
+render() {
+
+    
+var styles = {
+  color:'green',
+  fontWeight:'bold'
+};
+
+
+
+    
+
+return (
+      
+	<div className="App">
+        
+	<header className="App-header">
+          	<img src={logo} className="App-logo" alt="logo" />
+          
+	<h1 className="App-title">{this.state.text}</h1>
+          </header>
+        
+
+	<p className="App-intro">
+          
+	<button onClick={() => this.update()} style={styles}>Change text</button>
+        
+	</p>
+      
+	
+	</div>
+    
+);
+  
+}
+
+}
+
+
+
+export default App;
