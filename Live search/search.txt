@@ -1,0 +1,74 @@
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+class App extends Component {
+    constructor() {
+    super();
+
+    this.state = {
+      list: ['Biryani', 'Pulao', 'Pae', 'Seekh Kabab', 'Sajji', 'Karahi', 'Kabab'],
+      result: [],
+    }
+
+  }
+
+search(e){
+  const {list} = this.state;
+  const value = e.target.value.toLowerCase();
+  
+  const result = list.filter(item => {
+    
+    const lower = item.toLowerCase();
+    return lower.substring(0,value.length).indexOf(value) !== -1
+
+  })
+ 
+  this.setState({result, value});
+}
+
+renderBody(){
+const {list,result, value} = this.state;
+const items = value ? result : list;
+
+  return (
+    <div className="App">
+      <p className="App-intro">
+      {value && <h3>You are searching this "{value}"</h3>}
+      <h1>Menu</h1>
+        <ol>
+        {items.map(item => {
+          return <li>{item}</li>
+        })
+      }
+      </ol>
+      </p>
+    </div>
+  );
+}
+
+renderHeader(){
+
+  return (
+    <header className="App-header">
+      <img src={logo} className="App-logo" alt="logo" />
+      <h2><input type="search" onChange={this.search.bind(this)}/> </h2>
+    </header> 
+  );
+}
+
+  render() {
+    const {list,result, value} = this.state;
+
+    return (
+      <div className="App">
+        
+        {this.renderHeader()}
+        {this.renderBody()}
+
+      </div>
+    );
+  }
+}
+
+export default App;
